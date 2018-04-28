@@ -13,3 +13,4 @@ echo "You entered: " $varzerotier
 sudo zerotier-cli join $varzerotier
 sudo zerotier-cli status
 sudo zerotier-cli listnetworks
+sudo apt install nginx -y
