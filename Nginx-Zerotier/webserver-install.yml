@@ -1,5 +1,5 @@
 ---
-- name: Install Nginx, ZeroTier, and PHP-FMP
+- name: Install Nginx, ZeroTier, and PHP-FPM
   hosts: localhost
   tasks:
     - name: Download and import ZeroTier pgp key
@@ -18,7 +18,7 @@
        name: zerotier-one
        update_cache: yes
 
-    - name: Install Nginx and PHP-FMP
+    - name: Install Nginx and PHP-FPM
       apt:
         name: "{{ packages }}"
       vars:
