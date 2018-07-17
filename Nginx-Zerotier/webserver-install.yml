@@ -1,0 +1,14 @@
+---
+- name: Install Nginx and ZeroTier
+  hosts: web_server_zt
+  tasks:
+    - name: Download and import ZeroTier pgp key
+      apt_key:
+        url: "{{ zerotier_gpg_url }}"
+        
+      name: Add ZeroTier APT repo
+      apt_repository:
+        repo: deb {{ zerotier_download_base }}/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+        filename: zerotier
+      register: zerotier_repo
+      
