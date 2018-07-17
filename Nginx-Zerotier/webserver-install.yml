@@ -1,6 +1,6 @@
 ---
 - name: Install Nginx and ZeroTier
-  hosts: web_server_zt
+  hosts: localhost
   tasks:
     - name: Download and import ZeroTier pgp key
       apt_key:
