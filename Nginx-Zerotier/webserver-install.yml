@@ -5,6 +5,7 @@
     - name: Download and import ZeroTier pgp key
       apt_key:
         url: "https://download.zerotier.com/contact@zerotier.com.gpg"
+      become: yes
         
     - name: Add ZeroTier APT repo
       apt_repository:
