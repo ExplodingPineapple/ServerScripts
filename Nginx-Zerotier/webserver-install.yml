@@ -1,33 +1,32 @@
 ---
-- name: Install Nginx, ZeroTier, and PHP-FMP 
+- name: Install Nginx, ZeroTier, and PHP-FMP
   hosts: localhost
   tasks:
     - name: Download and import ZeroTier pgp key
-       apt_key:
+      apt_key:
         url: "https://download.zerotier.com/contact@zerotier.com.gpg"
       become: yes
-        
+
     - name: Add ZeroTier APT repo
       apt_repository:
         repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
         filename: zerotier
       register: zerotier_repo
-      
+
     - name: Update APT cache and Install ZeroTier from APT
-       apt:
-        name: zerotier-one
+      apt:
+       name: zerotier-one
        update_cache: yes
-      
+
     - name: Install Nginx and PHP-FMP
-       apt:
+      apt:
         name: "{{ packages }}"
       vars:
         packages:
         - nginx
-        - php-fmp
-    
+        - php-fpm
+
     - name: Cleanup
-       apt:
+      apt:
         autoclean: yes
         autoremove: yes
-       
