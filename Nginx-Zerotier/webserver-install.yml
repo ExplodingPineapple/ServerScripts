@@ -4,11 +4,11 @@
   tasks:
     - name: Download and import ZeroTier pgp key
       apt_key:
-        url: "{{ zerotier_gpg_url }}"
+        url: "https://download.zerotier.com/contact@zerotier.com.gpg"
         
     - name: Add ZeroTier APT repo
       apt_repository:
-        repo: deb {{ zerotier_download_base }}/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+        repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
         filename: zerotier
       register: zerotier_repo
       
