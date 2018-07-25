@@ -26,6 +26,13 @@
         - nginx
         - php-fpm
 
+    - name: Start Nginx
+      systemd:
+        name: nginx
+        enabled: yes
+        masked: no
+        state: started
+
     - name: Cleanup
       apt:
         autoclean: yes
