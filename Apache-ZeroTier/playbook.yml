@@ -1,5 +1,5 @@
 ---
-- name: Install Nginx, ZeroTier, and PHP-FPM
+- name: Install Apache, ZeroTier, and PHP
   hosts: localhost
   tasks:
     - name: Download and import ZeroTier pgp key
@@ -18,17 +18,18 @@
        name: zerotier-one
        update_cache: yes
 
-    - name: Install Nginx and PHP-FPM
+    - name: Install Apache2 and PHP
       apt:
         name: "{{ packages }}"
       vars:
         packages:
-        - nginx
-        - php-fpm
+        - apache2
+        - php
+        - libapache2-mod-php
 
     - name: Start Nginx
       systemd:
-        name: nginx
+        name: apache2
         enabled: yes
         masked: no
         state: started
