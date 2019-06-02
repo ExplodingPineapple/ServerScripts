@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+    - name: Insert UFW Docker fix at the end of after.rules file
+      lineinfile:
+        path: /etc/ufw/after.rules
+        line: last

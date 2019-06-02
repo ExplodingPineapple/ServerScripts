@@ -1,6 +1,6 @@
 ---
 - name: Install Python
-  hosts: localhost
+  hosts: all
   gather_facts: no
   become: true
 
