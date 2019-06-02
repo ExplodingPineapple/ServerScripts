@@ -1,0 +1,14 @@
+---
+- name: Configure Base system
+  hosts: all
+  remote_user: expi-admin
+
+  pre_tasks:
+    - name: Install python for Ansible to work.
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+
+  tasks:
+  - name: ensure latest updates are installed
+    apt:
+      name: 
