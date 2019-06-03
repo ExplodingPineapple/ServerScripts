@@ -1,5 +1,14 @@
 ---
-- hosts: all
+- name: Install Python
+  hosts: all
+  gather_facts: no
+  become: true
+
+  pre_tasks:
+    - name: Install python for Ansible to work.
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+
   tasks:
     #- name: Insert UFW Docker fix at the end of after.rules file
      # lineinfile:
