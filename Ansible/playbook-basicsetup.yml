@@ -1,7 +1,19 @@
 ---
 - hosts: all
   tasks:
-    - name: Insert UFW Docker fix at the end of after.rules file
-      lineinfile:
-        path: /etc/ufw/after.rules
-        line: last
+    #- name: Insert UFW Docker fix at the end of after.rules file
+     # lineinfile:
+      #  path: /etc/ufw/after.rules
+       # line: last
+     - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
+       get_url:
+         backup: yes
+         dest: /usr/local/bin/ufw-docker
+         mode: +x
+         url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+
+     - name: run ufw-docker install command
+       command: ufw-docker install
+       become: yes
+       become_user: root
+
