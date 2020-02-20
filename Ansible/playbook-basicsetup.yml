@@ -19,7 +19,6 @@
          update_cache: yes
          name: "*"
          state: latest
-         become: yes
 
      - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
        become: yes
