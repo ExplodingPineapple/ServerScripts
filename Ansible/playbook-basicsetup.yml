@@ -21,6 +21,9 @@
          update_cache: yes
          upgrade: yes
 
+     - name: install list of packages from vars
+       apt: name={{ sys_packages }} state=latest
+
      - name: enable ufw
        ufw:
          state: enabled

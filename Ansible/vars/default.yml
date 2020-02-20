@@ -1,0 +1,1 @@
+sys_packages: [ 'curl', 'nano', 'git', 'ufw']
