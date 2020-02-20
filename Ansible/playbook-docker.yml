@@ -39,7 +39,7 @@
 
      - name: Install Docker Module for Python
        pip:
-         name: docker
+         name: docker-py
          executable: pip3
 
      - name: Pull Portainer Agent Image
