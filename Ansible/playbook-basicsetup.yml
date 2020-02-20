@@ -1,6 +1,6 @@
 ---
 - name: Install Python
-  hosts: all
+  hosts: localhost
   gather_facts: no
   become: true
 
@@ -14,6 +14,13 @@
      # lineinfile:
       #  path: /etc/ufw/after.rules
        # line: last
+     - name: apt update and upgrade
+       apt:
+         update_cache: yes
+         name: "*"
+         state: latest
+         become: yes
+
      - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
        become: yes
        get_url:
@@ -25,9 +32,30 @@
      - name: run ufw-docker install command
        command: ufw-docker install
        become: yes
-
-     - name: apt update and upgrade
+       
+     - name: Download and import ZeroTier pgp key
+       apt_key:
+         url: "https://download.zerotier.com/contact@zerotier.com.gpg"
+       become: yes
+ 
+     - name: Add ZeroTier APT repo
+       apt_repository:
+         repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+         filename: zerotier
+       register: zerotier_repo
+ 
+     - name: Update APT cache and Install ZeroTier from APT
        apt:
+         name: zerotier-one
          update_cache: yes
-         name: "*"
-         state: latest
+         auto_clean: yes
+         auto_remove: yes
+         become: yes
+
+     - name: enable ufw
+       ufw:
+         state: enabled
+     - name: allow ssh
+       ufw:
+         rule: allow
+         name: OpenSSH
