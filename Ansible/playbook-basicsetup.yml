@@ -42,7 +42,7 @@
  
      - name: Add ZeroTier APT repo
        apt_repository:
-         repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+         repo: deb http://download.zerotier.com/debian/bionic bionic main
          filename: zerotier
        register: zerotier_repo
  
@@ -52,7 +52,6 @@
          update_cache: yes
          auto_clean: yes
          auto_remove: yes
-         become: yes
 
      - name: allow ssh
        ufw:
