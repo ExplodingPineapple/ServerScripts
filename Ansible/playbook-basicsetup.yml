@@ -1,7 +1,7 @@
 ---
 - name: Install Python
   hosts: localhost
-  gather_facts: no
+  #gather_facts: no
   become: true
   vars_files:
     - vars/default.yml
