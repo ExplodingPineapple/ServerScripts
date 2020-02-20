@@ -45,7 +45,8 @@
      - name: Pull Portainer Agent Image
        docker_image:
          name: portainer/agent
-         source: pull
+         #source: pull
+         pull: yes
 
      - name: Create Portainer Agent container
        docker_container:
