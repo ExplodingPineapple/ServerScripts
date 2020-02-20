@@ -56,3 +56,4 @@
        docker_container:
          name: portainer_agent
          image: portainer/agent
+         state: started
