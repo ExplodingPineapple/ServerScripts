@@ -14,10 +14,10 @@
      - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
        become: yes
        get_url:
-       backup: yes
-       dest: /usr/local/bin/ufw-docker
-       mode: +x
-       url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+         backup: yes
+         dest: /usr/local/bin/ufw-docker
+         mode: +x
+         url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
 
      - name: run ufw-docker install command
        command: ufw-docker install
@@ -47,6 +47,6 @@
          source: pull
 
      - name: Create Portainer Agent container
-       docker-container:
+       docker_container:
          name: portainer_agent
          image: portainer/agent
