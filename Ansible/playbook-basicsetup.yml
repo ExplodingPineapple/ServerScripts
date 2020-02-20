@@ -3,6 +3,8 @@
   hosts: localhost
   gather_facts: no
   become: true
+  vars_files:
+    - vars/default.yml
 
   pre_tasks:
     - name: Install python for Ansible to work.
@@ -42,7 +44,7 @@
  
      - name: Add ZeroTier APT repo
        apt_repository:
-         repo: deb http://download.zerotier.com/debian/bionic bionic main
+         repo: deb http://download.zerotier.com/debian/"{{ ansible_distribution_release }} {{ ansible_distribution_release }}" main
          filename: zerotier
        register: zerotier_repo
  
@@ -57,3 +59,8 @@
        ufw:
          rule: allow
          name: OpenSSH
+
+     - name: deny all other incoming traffic by default
+       ufw:
+         policy: deny
+         direction: incoming
