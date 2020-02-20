@@ -3,6 +3,7 @@
   hosts: localhost
   gather_facts: no
   become: true
+  force_apt_get: yes
 
   pre_tasks:
     - name: Install python for Ansible to work.
