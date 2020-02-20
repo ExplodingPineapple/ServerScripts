@@ -25,3 +25,9 @@
      - name: run ufw-docker install command
        command: ufw-docker install
        become: yes
+
+     - name: apt update and upgrade
+       apt:
+         update_cache: yes
+         name: "*"
+         state: latest
