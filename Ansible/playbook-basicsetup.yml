@@ -3,7 +3,6 @@
   hosts: localhost
   gather_facts: no
   become: true
-  force_apt_get: yes
 
   pre_tasks:
     - name: Install python for Ansible to work.
@@ -18,8 +17,7 @@
      - name: apt update and upgrade
        apt:
          update_cache: yes
-         name: "*"
-         state: latest
+         upgrade: yes
 
      - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
        become: yes
