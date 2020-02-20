@@ -9,7 +9,7 @@
 
      - name: Install required system packages
        apt: name={{ item }} state=latest update_cache=yes
-       loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+       loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'python-pip']
 
      - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
        become: yes
@@ -39,8 +39,12 @@
 
      - name: Install Docker Module for Python
        pip:
-         name: docker-py
+         name: docker
          executable: pip3
+
+     - name: docker for python 2
+       pip:
+         name: docker-py
 
      - name: Pull Portainer Agent Image
        docker_image:
