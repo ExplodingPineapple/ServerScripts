@@ -1,5 +1,5 @@
 ---
-- name: Install Python
+- name: Setup Basic System
   hosts: localhost
   #gather_facts: no
   become: true
@@ -27,18 +27,6 @@
      - name: enable ufw
        ufw:
          state: enabled
-
-     - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
-       become: yes
-       get_url:
-         backup: yes
-         dest: /usr/local/bin/ufw-docker
-         mode: +x
-         url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
-
-     - name: run ufw-docker install command
-       command: ufw-docker install
-       become: yes
        
      - name: Download and import ZeroTier pgp key
        apt_key:
