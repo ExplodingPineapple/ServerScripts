@@ -1,0 +1,35 @@
+---
+    - name: Install speedtest cli from ookla
+      hosts: localhost
+      #gather_facts: no
+      become: true
+      environment:
+        INSTALL_KEY: 379CE192D401AB61
+    
+      pre_tasks:
+        - name: Install python for Ansible to work.
+          raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+          changed_when: false
+
+      tasks:
+         - name: apt update
+           apt:
+             update_cache: yes
+
+         - name: Import ookla speedtest key
+           apt_key:
+             keyserver: keyserver.ubuntu.com
+             id: {{ INSTALL_KEY }}
+
+         - name: Add Ookla repo
+           apt_repository:
+             repo: deb https://ookla.bintray.com/debian {{ ansible_distribution_release }} main
+             filename: ookla_speedtest
+           register: ookla_speedtest
+
+         - name: Update APT cache and install speedtest cli
+           apt:
+             name: speedtest
+             update_cache: yes
+             autoclean: yes
+             autoremove: yes
