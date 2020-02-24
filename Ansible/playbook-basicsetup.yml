@@ -34,6 +34,12 @@
         create_home: true
         shell: /bin/bash
 
+    - name: Set authorized key for remote user
+      authorized_key:
+      user: "{{ create_user }}"
+      state: present
+      key: "{{ copy_local_key }}"
+
     - name: enable ufw
       ufw:
         state: enabled
@@ -79,6 +85,13 @@
         state: present
         regexp: '^#?PasswordAuthentication'
         line: 'PasswordAuthentication no'
+
+    - name: Only allow certain users
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        insertafter: EOF
+        line: 'AllowUsers expi-admin@*'
 
     - name: Secure Shared Memory
       lineinfile:
