@@ -66,12 +66,12 @@
          policy: deny
          direction: incoming
 
-     - name: Disable password authentication for root
-       lineinfile:
-       path: /etc/ssh/sshd_config
-       state: present
-       regexp: '^#?PermitRootLogin'
-       line: 'PermitRootLogin prohibit-password'
+     #- name: Disable password authentication for root
+      # lineinfile:
+      # path: /etc/ssh/sshd_config
+      # state: present
+      # regexp: '^#?PermitRootLogin'
+      # line: 'PermitRootLogin prohibit-password'
 
      - name: Disallow SSH password authentication
        lineinfile:
