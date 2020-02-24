@@ -46,15 +46,15 @@
       pip:
         name: docker-py
 
-    - name: Pull Portainer Agent Image
+    - name: Pull Portainer Image
       docker_image:
-        name: portainer/agent
+        name: portainer/portainer
         #source: pull
         pull: yes
 
-    - name: Create Portainer Agent container
+    - name: Create Portainer container
       become: yes
       docker_container:
-        name: portainer_agent
-        image: portainer/agent
+        name: portainer
+        image: portainer/portainer
         state: started
