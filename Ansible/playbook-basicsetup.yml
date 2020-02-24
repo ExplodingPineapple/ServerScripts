@@ -29,7 +29,7 @@
        user:
          name: "{{  create_user  }}"
          state: present
-         groups: admin sudo
+         groups: admin,sudo
          append: true
          create_home: true
          shell: /bin/bash
