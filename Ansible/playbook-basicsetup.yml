@@ -86,3 +86,23 @@
         state: present
         insertafter: EOF
         line: 'none /run/shm tmpfs defaults,ro 0 0'
+
+    - name: Copy issue.net for SSH MOTD
+      copy:
+        src: ./overlay/etc/issue.net
+        dest: /etc/issue.net
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable Issue.net Banner in SSH Config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?Banner'
+        line: 'Banner /etc/issue.net'
+
+    - name: restart ssh service
+      service:
+        name: ssh
+        state: restarted
