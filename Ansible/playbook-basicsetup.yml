@@ -16,73 +16,73 @@
      # lineinfile:
       #  path: /etc/ufw/after.rules
        # line: last
-     - name: apt update and upgrade
-       apt:
-         update_cache: yes
-         upgrade: yes
+    - name: apt update and upgrade
+      apt:
+        update_cache: yes
+        upgrade: yes
 
-     - name: install list of packages from vars
-       apt: name={{ sys_packages }} state=latest
+    - name: install list of packages from vars
+      apt: name={{ sys_packages }} state=latest
    
 # User + Key Setup
-     - name: Create a new regular user with sudo privileges
-       user:
-         name: "{{  create_user  }}"
-         state: present
-         groups: admin,sudo
-         append: true
-         create_home: true
-         shell: /bin/bash
+    - name: Create a new regular user with sudo privileges
+      user:
+        name: "{{  create_user  }}"
+        state: present
+        groups: admin,sudo
+        append: true
+        create_home: true
+        shell: /bin/bash
 
-     - name: enable ufw
-       ufw:
-         state: enabled
+    - name: enable ufw
+      ufw:
+        state: enabled
        
-     - name: Download and import ZeroTier pgp key
-       apt_key:
-         url: "https://download.zerotier.com/contact@zerotier.com.gpg"
-       become: yes
+    - name: Download and import ZeroTier pgp key
+      apt_key:
+        url: "https://download.zerotier.com/contact@zerotier.com.gpg"
+      become: yes
  
-     - name: Add ZeroTier APT repo
-       apt_repository:
-         repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
-         filename: zerotier
-       register: zerotier_repo
+    - name: Add ZeroTier APT repo
+      apt_repository:
+        repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+        filename: zerotier
+      register: zerotier_repo
  
-     - name: Update APT cache and Install ZeroTier from APT
-       apt:
-         name: zerotier-one
-         update_cache: yes
-         autoclean: yes
-         autoremove: yes
+    - name: Update APT cache and Install ZeroTier from APT
+      apt:
+        name: zerotier-one
+        update_cache: yes
+        autoclean: yes
+        autoremove: yes
 
-     - name: allow ssh
-       ufw:
-         rule: allow
-         name: OpenSSH
+    - name: allow ssh
+      ufw:
+        rule: allow
+        name: OpenSSH
 
-     - name: deny all other incoming traffic by default
-       ufw:
-         policy: deny
-         direction: incoming
+    - name: deny all other incoming traffic by default
+      ufw:
+        policy: deny
+        direction: incoming
 
-     - name: Disable password authentication for root
-       lineinfile:
-         path: /etc/ssh/sshd_config
-         state: present
-         regexp: '^#?PermitRootLogin'
-         line: 'PermitRootLogin prohibit-password'
+    - name: Disable password authentication for root
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin prohibit-password'
 
-     - name: Disallow SSH password authentication
-       lineinfile:
-         path: /etc/ssh/sshd_config
-         state: present
-         regexp: '^#?PasswordAuthentication'
-         line: 'PasswordAuthentication no'
+    - name: Disallow SSH password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
 
-     - name: Secure Shared Memory
-       lineinfile:
-         path: /etc/fstab
-         state: present
-         insertafter: EOF
-         line: 'none /run/shm tmpfs defaults,ro 0 0'
+    - name: Secure Shared Memory
+      lineinfile:
+        path: /etc/fstab
+        state: present
+        insertafter: EOF
+        line: 'none /run/shm tmpfs defaults,ro 0 0'
