@@ -1,1 +1,2 @@
-sys_packages: [ 'curl', 'nano', 'git', 'ufw']
+sys_packages: [ 'curl', 'nano', 'git', 'ufw', 'fail2ban']
+create_user: 

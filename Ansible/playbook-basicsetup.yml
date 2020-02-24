@@ -23,6 +23,16 @@
 
      - name: install list of packages from vars
        apt: name={{ sys_packages }} state=latest
+   
+# User + Key Setup
+     - name: Create a new regular user with sudo privileges
+       user:
+         name: "{{  create_user  }}"
+         state: present
+         groups: admin sudo
+         append: true
+         create_home: true
+         shell: /bin/bash
 
      - name: enable ufw
        ufw:
@@ -55,3 +65,24 @@
        ufw:
          policy: deny
          direction: incoming
+
+     - name: Disable password authentication for root
+       lineinfile:
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: '^#?PermitRootLogin'
+       line: 'PermitRootLogin prohibit-password'
+
+     - name: Disallow SSH password authentication
+       lineinfile:
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: '^#?PasswordAuthentication'
+       line: 'PasswordAuthentication no'
+
+     - name: Secure Shared Memory
+       lineinfile:
+       path: /etc/fstab
+       state: present
+       insertafter: EOF
+       line: 'none /run/shm tmpfs defaults,ro 0 0'
