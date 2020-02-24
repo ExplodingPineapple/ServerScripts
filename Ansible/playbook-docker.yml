@@ -7,54 +7,54 @@
 
   tasks:
 
-     - name: Install required system packages
-       apt: name={{ item }} state=latest update_cache=yes
-       loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'python-pip']
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'python-pip']
 
-     - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
-       become: yes
-       get_url:
-         backup: yes
-         dest: /usr/local/bin/ufw-docker
-         mode: +x
-         url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+    - name: download program/script from https://github.com/chaifeng/ufw-docker and install to /usr/local/bin/ufw-docker then chmod +x
+      become: yes
+      get_url:
+        backup: yes
+        dest: /usr/local/bin/ufw-docker
+        mode: +x
+        url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
 
-     - name: run ufw-docker install command
-       command: ufw-docker install
-       become: yes
+    - name: run ufw-docker install command
+      command: ufw-docker install
+      become: yes
 
-     - name: Add Docker GPG apt Key
-       apt_key:
-         url: https://download.docker.com/linux/ubuntu/gpg
-         state: present
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
 
-     - name: Add Docker Repo to APT
-       apt_repository:
-         repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
-         filename: docker
-       register: docker_repo
+    - name: Add Docker Repo to APT
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        filename: docker
+      register: docker_repo
 
-     - name: Update apt and install docker-ce
-       apt: update_cache=yes name=docker-ce state=latest
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
 
-     - name: Install Docker Module for Python
-       pip:
-         name: docker
-         executable: pip3
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+        executable: pip3
 
-     - name: docker for python 2
-       pip:
-         name: docker-py
+    - name: docker for python 2
+      pip:
+        name: docker-py
 
-     - name: Pull Portainer Agent Image
-       docker_image:
-         name: portainer/agent
-         #source: pull
-         pull: yes
+    - name: Pull Portainer Agent Image
+      docker_image:
+        name: portainer/agent
+        #source: pull
+        pull: yes
 
-     - name: Create Portainer Agent container
-       become: yes
-       docker_container:
-         name: portainer_agent
-         image: portainer/agent
-         state: started
+    - name: Create Portainer Agent container
+      become: yes
+      docker_container:
+        name: portainer_agent
+        image: portainer/agent
+        state: started
