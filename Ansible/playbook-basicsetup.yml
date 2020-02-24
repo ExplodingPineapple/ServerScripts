@@ -34,6 +34,7 @@
         append: true
         create_home: true
         shell: /bin/bash
+      become: yes
 
     - name: Set authorized key for remote user
       authorized_key:
