@@ -29,6 +29,7 @@
       user:
         name: "{{  create_user  }}"
         state: present
+        password: "{{ lookup('password', '/tmp/passwordfile chars=ascii_letters,digits,hexdigits,punctuation') }}"
         groups: admin,sudo
         append: true
         create_home: true
