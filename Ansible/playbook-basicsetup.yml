@@ -29,12 +29,16 @@
       user:
         name: "{{  create_user  }}"
         state: present
-        password: "{{ password }}"
-        groups: admin,sudo
+        password: "{{ 'password' | password_hash('sha512') }}"
+        groups: sudo
         append: true
         create_home: true
         shell: /bin/bash
-      become: yes
+        update_password: on_create
+      notify: force change password
+
+    - name: force change password
+      command: "chage -d 0 {{ create_user }}"
 
     - name: Set authorized key for remote user
       authorized_key:
