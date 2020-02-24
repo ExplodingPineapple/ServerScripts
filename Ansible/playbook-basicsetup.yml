@@ -66,23 +66,23 @@
          policy: deny
          direction: incoming
 
-     #- name: Disable password authentication for root
-      # lineinfile:
-      # path: /etc/ssh/sshd_config
-      # state: present
-      # regexp: '^#?PermitRootLogin'
-      # line: 'PermitRootLogin prohibit-password'
+     - name: Disable password authentication for root
+       lineinfile:
+         path: /etc/ssh/sshd_config
+         state: present
+         regexp: '^#?PermitRootLogin'
+         line: 'PermitRootLogin prohibit-password'
 
      - name: Disallow SSH password authentication
        lineinfile:
-       path: /etc/ssh/sshd_config
-       state: present
-       regexp: '^#?PasswordAuthentication'
-       line: 'PasswordAuthentication no'
+         path: /etc/ssh/sshd_config
+         state: present
+         regexp: '^#?PasswordAuthentication'
+         line: 'PasswordAuthentication no'
 
      - name: Secure Shared Memory
        lineinfile:
-       path: /etc/fstab
-       state: present
-       insertafter: EOF
-       line: 'none /run/shm tmpfs defaults,ro 0 0'
+         path: /etc/fstab
+         state: present
+         insertafter: EOF
+         line: 'none /run/shm tmpfs defaults,ro 0 0'
