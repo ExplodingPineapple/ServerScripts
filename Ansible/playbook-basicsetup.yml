@@ -37,9 +37,9 @@
 
     - name: Set authorized key for remote user
       authorized_key:
-      user: "{{ create_user }}"
-      state: present
-      key: "{{ copy_local_key }}"
+        user: "{{ create_user }}"
+        state: present
+        key: "{{ copy_local_key }}"
 
     - name: enable ufw
       ufw:
