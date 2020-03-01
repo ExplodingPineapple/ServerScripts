@@ -29,7 +29,7 @@
       user:
         name: "{{  create_user  }}"
         state: present
-        password: "{{ 'password' | password_hash('sha512') }}"
+#        password: "{{ 'password' | password_hash('sha512') }}"
         groups: sudo
         append: true
         create_home: true
