@@ -1,0 +1,105 @@
+---
+- name: Setup Basic System
+  hosts: localhost
+  #gather_facts: no
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  pre_tasks:
+    - name: Install python for Ansible to work.
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+
+  tasks:
+    #- name: Insert UFW Docker fix at the end of after.rules file
+     # lineinfile:
+      #  path: /etc/ufw/after.rules
+       # line: last
+    - name: apt update and upgrade
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: install list of packages from vars
+      apt: name={{ sys_packages }} state=latest
+
+    - name: enable ufw
+      ufw:
+        state: enabled
+       
+    - name: Download and import ZeroTier pgp key
+      apt_key:
+        url: "https://download.zerotier.com/contact@zerotier.com.gpg"
+      become: yes
+ 
+    - name: Add ZeroTier APT repo
+      apt_repository:
+        repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+        filename: zerotier
+      register: zerotier_repo
+ 
+    - name: Update APT cache and Install ZeroTier from APT
+      apt:
+        name: zerotier-one
+        update_cache: yes
+        autoclean: yes
+        autoremove: yes
+
+    - name: allow ssh
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: deny all other incoming traffic by default
+      ufw:
+        policy: deny
+        direction: incoming
+
+    - name: Disable password authentication for root
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin prohibit-password'
+
+    - name: Disallow SSH password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+
+    - name: Only allow certain users
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        insertafter: EOF
+        line: 'AllowUsers expi-admin@*'
+
+    - name: Secure Shared Memory
+      lineinfile:
+        path: /etc/fstab
+        state: present
+        insertafter: EOF
+        line: 'none /run/shm tmpfs defaults,ro 0 0'
+
+    - name: Copy issue.net for SSH MOTD
+      copy:
+        src: ./overlay/etc/issue.net
+        dest: /etc/issue.net
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable Issue.net Banner in SSH Config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?Banner'
+        line: 'Banner /etc/issue.net'
+
+    - name: restart ssh service
+      service:
+        name: ssh
+        state: restarted
