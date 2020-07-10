@@ -1,1 +1,4 @@
-sys_packages: [ 'curl', 'nano', 'git', 'ufw']
+sys_packages: [ 'curl', 'nano', 'git', 'ufw', 'fail2ban', 'mosh']
+create_user: 
+password: 
+copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/authorized_keys') }}"

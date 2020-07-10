@@ -23,28 +23,6 @@
 
     - name: install list of packages from vars
       apt: name={{ sys_packages }} state=latest
-   
-# User + Key Setup
-    - name: Create a new regular user with sudo privileges
-      user:
-        name: "{{  create_user  }}"
-        state: present
-#        password: "{{ 'password' | password_hash('sha512') }}"
-        groups: sudo
-        append: true
-        create_home: true
-        shell: /bin/bash
-        update_password: on_create
-      notify: force change password
-
-    - name: force change password
-      command: "chage -d 0 {{ create_user }}"
-
-    - name: Set authorized key for remote user
-      authorized_key:
-        user: "{{ create_user }}"
-        state: present
-        key: "{{ copy_local_key }}"
 
     - name: enable ufw
       ufw:
