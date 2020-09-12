@@ -36,7 +36,7 @@
         shell: /bin/bash
 #        update_password: on_create
 #      notify: force change password
-
+#
 #    - name: force change password
 #      command: "chage -d 0 {{ create_user }}"
 
