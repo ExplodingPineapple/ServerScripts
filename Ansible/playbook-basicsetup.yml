@@ -6,10 +6,10 @@
   vars_files:
     - vars/default.yml
 
-  pre_tasks:
-    - name: Install python for Ansible to work.
-      raw: test -e /usr/bin/python || (apt-get -y update && apt install -y python-minimal)
-      changed_when: false
+#  pre_tasks:
+#    - name: Install python for Ansible to work.
+#      raw: test -e /usr/bin/python || (apt-get -y update && apt install -y python-minimal)
+#      changed_when: false
 
   tasks:
     #- name: Insert UFW Docker fix at the end of after.rules file
