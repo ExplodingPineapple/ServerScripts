@@ -29,16 +29,16 @@
       user:
         name: "{{  create_user  }}"
         state: present
-#        password: "{{ 'password' | password_hash('sha512') }}"
+        password: "{{ 'password' | password_hash('sha512') }}"
         groups: sudo
         append: true
         create_home: true
         shell: /bin/bash
-#        update_password: on_create
-#      notify: force change password
+        update_password: on_create
+      notify: force change password
 
-#    - name: force change password
-#      command: "chage -d 0 {{ create_user }}"
+    - name: force change password
+      command: "chage -d 0 {{ create_user }}"
 
       authorized_key:
         user: "{{ create_user }}"
