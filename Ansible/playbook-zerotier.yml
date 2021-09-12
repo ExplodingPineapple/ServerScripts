@@ -3,8 +3,6 @@
       hosts: localhost
       #gather_facts: no
       become: true
-      environment:
-        INSTALL_KEY: 379CE192D401AB61
     
       pre_tasks:
         - name: Install python for Ansible to work.
