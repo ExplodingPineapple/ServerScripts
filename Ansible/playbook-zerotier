@@ -1,0 +1,18 @@
+tasks:    
+- name: Download and import ZeroTier pgp key
+      apt_key:
+        url: "https://download.zerotier.com/contact@zerotier.com.gpg"
+      become: yes
+ 
+    - name: Add ZeroTier APT repo
+      apt_repository:
+        repo: deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main
+        filename: zerotier
+      register: zerotier_repo
+ 
+    - name: Update APT cache and Install ZeroTier from APT
+      apt:
+        name: zerotier-one
+        update_cache: yes
+        autoclean: yes
+        autoremove: yes
